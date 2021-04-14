@@ -89,7 +89,11 @@ prompt_end() {
 # Context: user@hostname (who am I and where am I)
 prompt_context() {
   if [[ "$USERNAME" != "$DEFAULT_USER" || -n "$SSH_CLIENT" ]]; then
-    prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
+    #prompt_segment black default "%(!.%{%F{yellow}%}.)%n@%m"
+
+    emojis=("⚡️" "🔥" "💀" "😎" "🦄" "🌈" "🚀" "🌙")
+	  RAND_EMOJI_N=$(( $RANDOM % ${#emojis[@]} + 1))
+  	prompt_segment black default "${emojis[$RAND_EMOJI_N]} "
   fi
 }
 
@@ -204,7 +208,7 @@ prompt_hg() {
 
 # Dir: current working directory
 prompt_dir() {
-  prompt_segment blue $CURRENT_FG '%~'
+  prompt_segment blue black "${PWD##*/}"
 }
 
 # Virtualenv: current working virtualenv
@@ -226,7 +230,8 @@ prompt_status() {
   [[ $UID -eq 0 ]] && symbols+="%{%F{yellow}%}⚡"
   [[ $(jobs -l | wc -l) -gt 0 ]] && symbols+="%{%F{cyan}%}⚙"
 
-  [[ -n "$symbols" ]] && prompt_segment black default "$symbols"
+  #[[ -n "$symbols" ]] && prompt_segment black default "$symbols"
+  [[ -n "$symbols" ]] && prompt_segment black default
 }
 
 #AWS Profile:
